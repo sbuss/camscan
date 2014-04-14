@@ -3,7 +3,7 @@
 /* Bind the webcam to a <video> element.
  *
  * Args:
- *   `element_name` The name of the <video> element to bind to
+ *   `element_name`: The name of the <video> element to bind to
  * Returns a reference to the bound element.
  */
 function bindCameraToElement(element_name) {
@@ -32,4 +32,29 @@ function bindCameraToElement(element_name) {
       }, errBack);
   }
   return video;
+}
+
+/* Copy an image from the video buffer to a canvas element
+ *
+ * Args:
+ *   `video`: The video element
+ *   `dest`: The target <canvas> element to copy the image into. If not
+ *   supplied, a hidden canvas element will be created.
+ * Returns a reference to the canvas element containing the image
+ */
+function captureImage(video, dest) {
+  dest = typeof dest !== 'undefined' ? dest : '_camscan_canvas';
+  var canvas = $(dest);
+  if (!canvas.length){
+    // If the dest doesn't exist, create it and make it hidden
+    canvas = $("<canvas id='" + dest + "' " +
+               "width='" + video.width + "' " +
+               "height='" + video.height + "' " +
+               "style='display:none'></canvas>").appendTo("body");
+  }
+  canvas = canvas[0];
+  var context = canvas.getContext("2d");
+  // TODO: Size shouldn't be hard-coded
+  context.drawImage(video, 0, 0, 640, 480);
+  return context
 }

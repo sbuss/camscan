@@ -15,12 +15,10 @@
 // Put event listeners into place
 $(document).ready(function() {
     // Grab elements, create settings, etc.
-    var canvas = $("#canvas")[0],
-        context = canvas.getContext("2d");
     var video = bindCameraToElement("video");
     // Trigger photo take
     $("#snap").click(function() {
-        context.drawImage(video, 0, 0, 640, 480);
+        captureImage(video);
     });
 });
 
