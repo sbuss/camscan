@@ -2,19 +2,21 @@
 <html>
 <head>
 <meta charset="utf-8">
+<script type="text/javascript" src="jquery-1.11.0.min.js"></script>
 </head>
 <body>
+<!-- code from http://davidwalsh.name/browser-camera -->
 <video id="video" width="640" height="480" autoplay></video>
 <button id="snap">Snap Photo</button>
 <canvas id="canvas" width="640" height="480"></canvas>
 
 <script type="text/javascript">
 // Put event listeners into place
-window.addEventListener("DOMContentLoaded", function() {
+$(document).ready(function() {
     // Grab elements, create settings, etc.
-    var canvas = document.getElementById("canvas"),
+    var canvas = $("#canvas")[0],
         context = canvas.getContext("2d"),
-        video = document.getElementById("video"),
+        video = $("#video")[0],
         videoObj = { "video": true },
         errBack = function(error) {
             console.log("Video capture error: ", error); 
@@ -39,10 +41,10 @@ window.addEventListener("DOMContentLoaded", function() {
         }, errBack);
     }
     // Trigger photo take
-    document.getElementById("snap").addEventListener("click", function() {
-            context.drawImage(video, 0, 0, 640, 480);
+    $("#snap").click(function() {
+        context.drawImage(video, 0, 0, 640, 480);
     });
-}, false);
+});
 
 </script>
 </body>
