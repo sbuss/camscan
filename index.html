@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <script type="text/javascript" src="jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="camscan.js"></script>
+<script type="text/javascript" src="filters.js"></script>
 </head>
 <body>
 <!-- code from http://davidwalsh.name/browser-camera -->
@@ -15,10 +16,10 @@
 // Put event listeners into place
 $(document).ready(function() {
     // Grab elements, create settings, etc.
-    var cs = new CamScan("video");
+    var cs = new CamScan("video", "canvas");
     // Trigger photo take
     $("#snap").click(function() {
-        cs.captureImage();
+        cs.extractDocument();
     });
 });
 

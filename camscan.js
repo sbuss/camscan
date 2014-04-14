@@ -74,3 +74,35 @@ CamScan.prototype.captureImage = function() {
   context.drawImage(this.video, 0, 0, this.video.width, this.video.height);
   return context;
 };
+
+/* Draw an image to the scan element
+ */
+CamScan.prototype.putImage = function(image_data) {
+  var context = this.scan.getContext("2d");
+  context.putImageData(image_data, 0, 0);
+  return context;
+};
+
+/* Extract the pixels from the captured image canvas
+ *
+ * Args:
+ *   `canvas`: The canvas that contains image data
+ * Returns image data // TODO wtf is "Image data"?
+ */
+CamScan.prototype.extractPixelsFromCanvas = function(canvas) {
+  return canvas.getImageData(0, 0, this.video.width, this.video.height);
+};
+
+/* Extract a rectangle from the captured image.
+ *
+ * Returns the Document captured from the video.
+ */
+CamScan.prototype.extractDocument = function() {
+  // First capture an image
+  var canvas = this.captureImage();
+  // Get the pixels
+  var pixels = this.extractPixelsFromCanvas(canvas);
+  // Then threshold the image
+  var thresholded = Filters.threshold(pixels, 128);
+  this.putImage(thresholded);
+};
