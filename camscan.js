@@ -1,6 +1,35 @@
-CamScan = {};
+/* Initialize a CamScan object.
+ *
+ * CamScan objects allow you to capture the current frame of a video steam,
+ * process it, and extract the document in view, if any.
+ *
+ * Args:
+ *   `video_element`: The name of the <video> element to bind to
+ *   `scan_element`: Optional. The element to show scanned contents
+ */
+function CamScan(video_element, scan_element) {
+  this.video = this.bindCameraToElement(video_element);
+  this.scan = this.getOrCreateScanElement(scan_element);
+}
 
-/* CamScan */
+/* Get or create a <canvas> for showing the scan
+ *
+ * Args:
+ *   `name`: The name of the element to use
+ */
+CamScan.prototype.getOrCreateScanElement = function(name) {
+  name = typeof name !== 'undefined' ? name : '_camscan_scan';
+  var canvas = $(name);
+  if (!canvas.length){
+    // If the canvas doesn't exist, create it and make it hidden
+    canvas = $("<canvas id='" + name + "' " +
+               "width='" + this.video.width + "' " +
+               "height='" + this.video.height + "' " +
+               "style='display:none'></canvas>").appendTo("body");
+  }
+  canvas = canvas[0];
+  return canvas;
+}
 
 /* Bind the webcam to a <video> element.
  *
@@ -8,7 +37,7 @@ CamScan = {};
  *   `element_name`: The name of the <video> element to bind to
  * Returns a reference to the bound element.
  */
-CamScan.bindCameraToElement = function(element_name) {
+CamScan.prototype.bindCameraToElement = function(element_name) {
   var video = $(element_name)[0],
       videoObj = { "video": true, "audio": false },
       errBack = function(error) {
@@ -38,25 +67,11 @@ CamScan.bindCameraToElement = function(element_name) {
 
 /* Copy an image from the video buffer to a canvas element
  *
- * Args:
- *   `video`: The video element
- *   `dest`: The target <canvas> element to copy the image into. If not
- *   supplied, a hidden canvas element will be created.
  * Returns a reference to the canvas element containing the image
  */
-CamScan.captureImage = function(video, dest) {
-  dest = typeof dest !== 'undefined' ? dest : '_camscan_canvas';
-  var canvas = $(dest);
-  if (!canvas.length){
-    // If the dest doesn't exist, create it and make it hidden
-    canvas = $("<canvas id='" + dest + "' " +
-               "width='" + video.width + "' " +
-               "height='" + video.height + "' " +
-               "style='display:none'></canvas>").appendTo("body");
-  }
-  canvas = canvas[0];
-  var context = canvas.getContext("2d");
+CamScan.prototype.captureImage = function() {
+  var context = this.scan.getContext("2d");
   // TODO: Size shouldn't be hard-coded
-  context.drawImage(video, 0, 0, 640, 480);
+  context.drawImage(this.video, 0, 0, 640, 480);
   return context;
 };
