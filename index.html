@@ -17,7 +17,7 @@ $(document).ready(function() {
     var canvas = $("#canvas")[0],
         context = canvas.getContext("2d"),
         video = $("#video")[0],
-        videoObj = { "video": true },
+        videoObj = { "video": true, "audio": false },
         errBack = function(error) {
             console.log("Video capture error: ", error); 
         };
