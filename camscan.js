@@ -102,7 +102,26 @@ CamScan.prototype.extractDocument = function() {
   var canvas = this.captureImage();
   // Get the pixels
   var pixels = this.extractPixelsFromCanvas(canvas);
+  // Convert to grayscale
+  var grayscale = Filters.grayscale(pixels);
+
+  // Get the average pixel intensity at the center of the image
+  var center = [Math.floor(this.video.width / 2), Math.floor(this.video.height / 2)];
+  var center_box = canvas.getImageData(
+      center[0] - 10, center[1] - 10, center[0] + 10, center[1] + 10);
+  var grayscale_box = Filters.grayscale(center_box);
+  var sum = 0;
+  for (var i = 0; i < grayscale_box.data.length; i++) {
+    sum += grayscale_box.data[i];
+  }
+  var avg_intensity = sum / grayscale_box.data.length;
+  console.log(avg_intensity);
+
+  // Let's brighten the image
+  var brightened = Filters.brightness(grayscale, 128 - avg_intensity);
+  //this.putImage(brightened);
+
   // Then threshold the image
-  var thresholded = Filters.threshold(pixels, 128);
+  var thresholded = Filters.threshold(brightened, 128);
   this.putImage(thresholded);
 };
