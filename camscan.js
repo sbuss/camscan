@@ -71,7 +71,6 @@ CamScan.prototype.bindCameraToElement = function(element_name) {
  */
 CamScan.prototype.captureImage = function() {
   var context = this.scan.getContext("2d");
-  // TODO: Size shouldn't be hard-coded
-  context.drawImage(this.video, 0, 0, 640, 480);
+  context.drawImage(this.video, 0, 0, this.video.width, this.video.height);
   return context;
 };
