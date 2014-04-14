@@ -15,10 +15,11 @@
 // Put event listeners into place
 $(document).ready(function() {
     // Grab elements, create settings, etc.
-    var video = bindCameraToElement("video");
+    var cs = CamScan;
+    var video = cs.bindCameraToElement("video");
     // Trigger photo take
     $("#snap").click(function() {
-        captureImage(video);
+        cs.captureImage(video);
     });
 });
 
