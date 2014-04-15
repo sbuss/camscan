@@ -37,25 +37,11 @@ Video.bindCameraToElement = function(video_element) {
 /* Copy an image from the given video buffer to a canvas element
  *
  * Args:
- *   `video_element`: The <video> element to extract a frame from
- *   `canvas_element_name`: The name of the <canvas> to copy the image to.
- *     If none, a hidden one is created.
+ *   `video`: The <video> element to extract a frame from
+ *   `canvas`: The <canvas> element to copy the image to.
  * Returns a reference to the canvas element containing the image
  */
-Video.captureImageToCanvas = function(video_element, canvas_element_name) {
-  canvas_element_name = (
-      typeof canvas_element_name !== 'undefined' ?
-      canvas_element_name : '_camscan_scan');
-  var canvas = $("#" + canvas_element_name);
-  if (!canvas.length){
-    // If the canvas doesn't exist, create it and make it hidden
-    canvas = $("<canvas id='" + canvas_element_name + "' " +
-               "width='" + video.width + "' " +
-               "height='" + video.height + "' " +
-               "style='display:none'></canvas>").appendTo("body");
-  }
-  canvas = canvas[0];
-
+Video.captureImageToCanvas = function(video, canvas) {
   var context = canvas.getContext("2d");
   context.drawImage(video, 0, 0, video.width, video.height);
   return canvas;
@@ -79,5 +65,5 @@ Video.getImageDataFromCanvas = function(canvas) {
  * Returns ImageData
  */
 Video.getImageDataFromVideo = function(video) {
-  return Video.getImageDataFromCanvas(Video.captureImageToCanvas(video_element));
+  return Video.getImageDataFromCanvas(Video.captureImageToCanvas(video));
 };

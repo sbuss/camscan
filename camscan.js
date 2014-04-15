@@ -9,17 +9,20 @@
  */
 function CamScan(video_element, scan_element) {
   this.video = Video.bindCameraToElement(video_element);
-  this.scan = this.getOrCreateScanElement(scan_element);
+  this.temp_scan = this.getOrCreateCanvas("_cam_scan_temp_scan");
+  this.temp_scan.style.display = "none";
+  this.scan = this.getOrCreateCanvas(scan_element);
 }
 
-/* Get or create a <canvas> for showing the scan
+/* Get or create a <canvas>
  *
  * Args:
  *   `name`: The name of the element to use
+ * Returns a reference to the <canvas>
  */
-CamScan.prototype.getOrCreateScanElement = function(name) {
+CamScan.prototype.getOrCreateCanvas = function(name) {
   name = typeof name !== 'undefined' ? name : '_camscan_scan';
-  var canvas = $(name);
+  var canvas = $("#" + name);
   if (!canvas.length){
     // If the canvas doesn't exist, create it
     canvas = $("<canvas id='" + name + "' " +
@@ -45,7 +48,7 @@ CamScan.prototype.putImage = function(image_data) {
  */
 CamScan.prototype.extractDocument = function() {
   // First capture an image
-  var canvas = Video.captureImageToCanvas(this.video);
+  var canvas = Video.captureImageToCanvas(this.video, this.temp_scan);
   // Get the pixels
   var pixels = Video.getImageDataFromCanvas(canvas);
   // Convert to grayscale
