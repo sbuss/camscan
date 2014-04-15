@@ -73,8 +73,9 @@ CamScan.prototype.extractDocument = function() {
   // Let's brighten the image
   var brightened = Filters.brightness(grayscale, 128 - avg_intensity);
   //this.putImage(brightened);
+  this.putImage(Filters.sharpen(brightened));
 
   // Then threshold the image
-  var thresholded = Filters.threshold(brightened, 128);
-  this.putImage(thresholded);
+  //var thresholded = Filters.threshold(brightened, 128);
+  //this.putImage(thresholded);
 };
