@@ -3,30 +3,38 @@ Video = {}
 /* Bind the webcam to a <video> element.
  *
  * Args:
- *   `video_element`: The name of the <video> element to bind to
+ *   `video_element`: The name of the <video> element to bind to.
  * Returns a reference to the bound element.
  */
 Video.bindCameraToElement = function(video_element) {
+  var hdConstraints = {
+    video: {
+      mandatory: {
+        minWidth: 1280,
+        minHeight: 720
+      }
+    },
+    audio: false
+  };
   var video = $(video_element)[0],
-      videoObj = { "video": true, "audio": false },
       errBack = function(error) {
           console.log("Video capture error: ", error); 
       };
 
   // Put video listeners into place
   if(navigator.getUserMedia) { // Standard
-      navigator.getUserMedia(videoObj, function(stream) {
+      navigator.getUserMedia(hdConstraints, function(stream) {
           video.src = stream;
           video.play();
       }, errBack);
   } else if(navigator.webkitGetUserMedia) { // WebKit-prefixed
-      navigator.webkitGetUserMedia(videoObj, function(stream){
+      navigator.webkitGetUserMedia(hdConstraints, function(stream){
           video.src = window.webkitURL.createObjectURL(stream);
           video.play();
       }, errBack);
   }
   else if(navigator.mozGetUserMedia) { // Firefox-prefixed
-      navigator.mozGetUserMedia(videoObj, function(stream){
+      navigator.mozGetUserMedia(hdConstraints, function(stream){
           video.src = window.URL.createObjectURL(stream);
           video.play();
       }, errBack);
