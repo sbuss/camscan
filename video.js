@@ -34,12 +34,12 @@ Video.bindCameraToElement = function(video_element) {
   return video;
 };
 
-/* Copy an image from the given video buffer to a canvas element
+/* Copy an image from the given video buffer to a canvas element.
  *
  * Args:
- *   `video`: The <video> element to extract a frame from
+ *   `video`: The <video> element to extract a frame from.
  *   `canvas`: The <canvas> element to copy the image to.
- * Returns a reference to the canvas element containing the image
+ * Returns a reference to the canvas element containing the image.
  */
 Video.captureImageToCanvas = function(video, canvas) {
   var context = canvas.getContext("2d");
@@ -47,22 +47,22 @@ Video.captureImageToCanvas = function(video, canvas) {
   return canvas;
 };
 
-/* Extract the <canvas> content as an image
+/* Extract the <canvas> content as an image.
  *
  * Args:
  *   `canvas`: The <canvas> to copy the image to.
- * Returns ImageData
+ * Returns ImageData.
  */
 Video.getImageDataFromCanvas = function(canvas) {
   var context = canvas.getContext("2d");
   return context.getImageData(0, 0, canvas.width, canvas.height);
 };
 
-/* Extract ImageData from the given video buffer
+/* Extract ImageData from the given video buffer.
  *
  * Args:
- *   `video`: The <video> element to copy a frame from
- * Returns ImageData
+ *   `video`: The <video> element to copy a frame from.
+ * Returns ImageData.
  */
 Video.getImageDataFromVideo = function(video) {
   return Video.getImageDataFromCanvas(Video.captureImageToCanvas(video));

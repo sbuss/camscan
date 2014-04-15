@@ -14,11 +14,11 @@ function CamScan(video_element, scan_element) {
   this.scan = this.getOrCreateCanvas(scan_element);
 }
 
-/* Get or create a <canvas>
+/* Get or create a <canvas>.
  *
  * Args:
- *   `name`: The name of the element to use
- * Returns a reference to the <canvas>
+ *   `name`: The name of the element to get or create.
+ * Returns a reference to the <canvas>.
  */
 CamScan.prototype.getOrCreateCanvas = function(name) {
   name = typeof name !== 'undefined' ? name : '_camscan_scan';
@@ -34,7 +34,11 @@ CamScan.prototype.getOrCreateCanvas = function(name) {
   return canvas;
 }
 
-/* Draw an image to the scan element
+/* Draw an image to the scan element.
+ *
+ * Args:
+ *   `image_data`: The ImageData to write out.
+ * Returns a reference to the context containing the image.
  */
 CamScan.prototype.putImage = function(image_data) {
   var context = this.scan.getContext("2d");
